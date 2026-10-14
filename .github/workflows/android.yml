@@ -1,51 +1,17 @@
 
-name: AL HINDWAN Android APK Build
-
-on:
-  push:
-    branches:
-      - main
-  workflow_dispatch:
-
-permissions:
-  contents: read
-
-jobs:
-  build:
-    name: Build Umrah Android APK
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Setup Java 17
-        uses: actions/setup-java@v5
-        with:
-          distribution: temurin
-          java-version: '17'
-
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
-
-      - name: Check Android Files
+      - name: Find Generated APK
+        if: success()
         run: |
-          echo "Checking Android project files"
-          test -f android/settings.gradle.kts
-          test -f android/gradlew
-          test -f android/app/build.gradle.kts
-
-      - name: Build Debug APK
-        working-directory: android
-        run: |
-          chmod +x gradlew
-          ./gradlew assembleDebug --no-daemon --stacktrace
+          echo "Searching for APK files..."
+          find . -type f -name "*.apk" -print
 
       - name: Upload APK
         if: success()
         uses: actions/upload-artifact@v4
         with:
           name: AL-HINDWAN-Umrah-APK
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          path: |
+            android/**/*.apk
+            **/build/outputs/apk/**/*.apk
           if-no-files-found: error
           retention-days: 14
