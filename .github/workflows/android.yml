@@ -1,5 +1,1 @@
-      - name: Find APK
-        if: success()
-        run: |
-          echo "Searching all project folders for APK files"
-          find . -type f -name "*.apk" -print
+name: Build Umrah Android APK
