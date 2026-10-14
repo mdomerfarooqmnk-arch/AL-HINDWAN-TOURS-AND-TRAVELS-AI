@@ -1,7 +1,11 @@
+
 name: AL HINDWAN Android APK Build
 
 on:
   push:
+    branches:
+      - main
+  pull_request:
     branches:
       - main
   workflow_dispatch:
@@ -14,6 +18,10 @@ jobs:
     name: Build Umrah Android APK
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        shell: bash
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -22,37 +30,54 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: '17'
+          java-version: "17"
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Check Android Files
+      - name: Inspect Android Project
         run: |
-          echo "Checking Android project"
+          echo "Repository root:"
+          pwd
+          echo "Root files:"
+          ls -la
+          echo "Android files:"
           ls -la android
-          ls -la android/app
+          echo "Gradle settings files:"
+          find android -maxdepth 3 -type f \
+            \( -name "settings.gradle" -o -name "settings.gradle.kts" \)
 
-      - name: Build Android APK
-        shell: bash
+      - name: Verify Gradle Project
         run: |
-          cd android
-          if [ ! -f gradlew ]; then
-            if [ -f settings.gradle ] || [ -f settings.gradle.kts ]; then
-              gradle wrapper
-            else
-              echo "ERROR: Gradle settings file is missing in android folder."
-              exit 1
-            fi
+          if [ ! -f android/settings.gradle.kts ] && \
+             [ ! -f android/settings.gradle ]; then
+            echo "ERROR: Android Gradle settings file is missing."
+            echo "Create android/settings.gradle.kts in GitHub."
+            exit 1
           fi
-          chmod +x gradlew
-          ./gradlew assembleDebug --stacktrace
+
+          if [ ! -f android/app/build.gradle.kts ] && \
+             [ ! -f android/app/build.gradle ]; then
+            echo "ERROR: Android app Gradle file is missing."
+            exit 1
+          fi
+
+      - name: Build Debug APK
+        working-directory: android
+        run: |
+          if [ -f gradlew ]; then
+            chmod +x gradlew
+            ./gradlew assembleDebug --no-daemon --stacktrace
+          else
+            echo "ERROR: gradlew is missing from android folder."
+            exit 1
+          fi
 
       - name: Upload APK
         if: success()
         uses: actions/upload-artifact@v4
         with:
           name: AL-HINDWAN-Umrah-APK
-          path: android/app/build/outputs/apk/debug/*.apk
+          path: android/**/build/outputs/apk/debug/*.apk
           if-no-files-found: error
           retention-days: 14
