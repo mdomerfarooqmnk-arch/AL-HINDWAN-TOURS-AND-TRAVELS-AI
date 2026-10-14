@@ -1,0 +1,74 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isAdmin() {
+      return isAuthenticated() && (
+        request.auth.token.admin == true ||
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+      );
+    }
+    
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // Published Umrah Packages - Publicly readable, write restricted to Admin
+    match /packages/{packageId} {
+      allow read: if resource.data.published == true || isAdmin();
+      allow write: if isAdmin();
+    }
+
+    // Hotels - Public read, Admin write
+    match /hotels/{hotelId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Ziyarat Places - Public read, Admin write
+    match /ziyarat_places/{placeId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Visa Guidelines & Download Forms - Public read, Admin write
+    match /visa_documents/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Bookings - User can read/write their own bookings, Admin can read/update all
+    match /bookings/{bookingId} {
+      allow create: if isAuthenticated();
+      allow read: if isAuthenticated() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow update, delete: if isAdmin();
+    }
+
+    // Passengers - Sensitive passport data: only accessible by booking owner or Admin
+    match /passengers/{passengerId} {
+      allow read, write: if isAuthenticated() && (resource.data.userId == request.auth.uid || isAdmin());
+    }
+
+    // Inbound Enquiries
+    match /enquiries/{enquiryId} {
+      allow create: if true; // Public can submit leads
+      allow read, update, delete: if isAdmin();
+    }
+
+    // App Settings & Office Contact
+    match /app_settings/{settingId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Admin Audit Logs
+    match /admin_audit_logs/{logId} {
+      allow read, write: if isAdmin();
+    }
+  }
+}

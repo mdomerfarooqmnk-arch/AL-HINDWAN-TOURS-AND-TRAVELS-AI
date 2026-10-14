@@ -1,0 +1,6 @@
+{
+  "name": "AL HINDWAN TOURS & TRAVELS — Umrah Services",
+  "description": "Premium Islamic Umrah booking application with real-time package catalog, multi-step booking, passenger management, hotel and Ziyarat guides, and admin console.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
