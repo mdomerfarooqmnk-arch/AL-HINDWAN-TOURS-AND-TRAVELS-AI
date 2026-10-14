@@ -17,6 +17,7 @@ permissions:
 
 jobs:
   build:
+    name: Build APK
     runs-on: ubuntu-latest
 
     steps:
@@ -32,34 +33,27 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Locate Android Project
-        shell: bash
+      - name: Check Project Files
         run: |
-          echo "Repository files:"
+          echo "Current directory:"
+          pwd
+          echo "Files:"
           ls -la
-          echo "Searching for Gradle settings..."
-          find . -maxdepth 4 \
-            \( -name settings.gradle -o -name settings.gradle.kts \) \
-            -not -path '*/.gradle/*' -print
+          echo "Gradle project files:"
+          find . -maxdepth 4 \( -name settings.gradle -o -name settings.gradle.kts \) -print
 
-      - name: Generate Gradle Wrapper if Missing
-        shell: bash
+      - name: Generate Gradle Wrapper
         run: |
           if [ ! -f gradlew ]; then
             if [ -f settings.gradle ] || [ -f settings.gradle.kts ]; then
               gradle wrapper
             else
-              echo "ERROR: No Gradle project found in repository root."
-              echo "Move the Android project files to the root or set the correct project directory."
+              echo "ERROR: settings.gradle or settings.gradle.kts not found in root."
+              echo "The Android project may be inside a subfolder."
               exit 1
             fi
           fi
-
           chmod +x gradlew
-          ls -la gradlew
-
-      - name: Verify Gradle
-        run: ./gradlew --version
 
       - name: Build Debug APK
         run: ./gradlew assembleDebug --stacktrace
@@ -68,7 +62,7 @@ jobs:
         if: success()
         uses: actions/upload-artifact@v4
         with:
-          name: Al-Hindwan-Android-Debug-APK
+          name: Al-Hindwan-Android-APK
           path: '**/build/outputs/apk/debug/*.apk'
           if-no-files-found: error
           retention-days: 14
