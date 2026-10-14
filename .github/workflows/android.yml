@@ -1,7 +1,7 @@
+```yaml
+name: Build Umrah Android APK
 
-name: AL HINDWAN Android APK Build
-
-on: 
+on:
   push:
     branches:
       - main
@@ -16,42 +16,45 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Setup Java
+      - name: Setup JDK 17
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '17'
 
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
-
-      - name: Verify Android Files
+      - name: Check Android Project
         run: |
+          echo "Checking Android project files"
           ls -la
           ls -la android
           test -f android/settings.gradle.kts
-          test -f android/gradlew
+          test -f android/build.gradle.kts
           test -f android/app/build.gradle.kts
+          test -f android/gradle/wrapper/gradle-wrapper.jar
+          test -f android/gradle/wrapper/gradle-wrapper.properties
+          test -s android/gradlew
 
-      - name: Build APK
+      - name: Build Debug APK
         working-directory: android
         run: |
           chmod +x gradlew
           ./gradlew assembleDebug --no-daemon --stacktrace
 
       - name: Find APK
-        if: always()
+        if: success()
         run: |
-          find . -type f -name "*.apk" -print
+          find android -type f -name "*.apk" -print
+          test -n "$(find android -type f -name '*.apk' -print -quit)"
 
       - name: Upload APK
         if: success()
         uses: actions/upload-artifact@v4
         with:
           name: AL-HINDWAN-Umrah-APK
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          path: android/app/build/outputs/apk/debug/*.apk
           if-no-files-found: error
           retention-days: 14
+```
