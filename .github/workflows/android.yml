@@ -17,7 +17,7 @@ permissions:
 
 jobs:
   build:
-    name: Build APK
+    name: Build Debug APK
     runs-on: ubuntu-latest
 
     steps:
@@ -33,29 +33,32 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Check Project Files
+      - name: Check Android Project
+        shell: bash
         run: |
-          echo "Current directory:"
+          echo "Checking project files..."
           pwd
-          echo "Files:"
           ls -la
-          echo "Gradle project files:"
-          find . -maxdepth 4 \( -name settings.gradle -o -name settings.gradle.kts \) -print
+          find . -maxdepth 4 \
+            \( -name settings.gradle -o -name settings.gradle.kts \) \
+            -not -path '*/.gradle/*' -print
 
-      - name: Generate Gradle Wrapper
+      - name: Prepare Gradle Wrapper
+        shell: bash
         run: |
           if [ ! -f gradlew ]; then
             if [ -f settings.gradle ] || [ -f settings.gradle.kts ]; then
               gradle wrapper
             else
-              echo "ERROR: settings.gradle or settings.gradle.kts not found in root."
-              echo "The Android project may be inside a subfolder."
+              echo "ERROR: Gradle project not found in repository root."
+              echo "Check whether the Android project is inside a subfolder."
               exit 1
             fi
           fi
+
           chmod +x gradlew
 
-      - name: Build Debug APK
+      - name: Build APK
         run: ./gradlew assembleDebug --stacktrace
 
       - name: Upload APK
