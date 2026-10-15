@@ -1,7 +1,7 @@
 package com.alhindwan.tours.theme
 
 import android.app.Activity
-import androidx.compose.foundation.isSystemInDarkTheme
+import android.content.ContextWrapper
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
@@ -31,9 +31,13 @@ fun AlHindwanTheme(
     val view = LocalView.current
     if (!view.isInEditMode) {
         SideEffect {
-            val context = view.context
-            if (context is Activity) {
-                val window = context.window
+            var ctx = view.context
+            while (ctx is ContextWrapper) {
+                if (ctx is Activity) break
+                ctx = ctx.baseContext
+            }
+            if (ctx is Activity) {
+                val window = ctx.window
                 window.statusBarColor = DeepGreen.toArgb()
                 WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = false
             }

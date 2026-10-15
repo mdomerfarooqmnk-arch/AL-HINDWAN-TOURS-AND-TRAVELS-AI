@@ -29,25 +29,24 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      - name: Setup Gradle
+      - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
-        with:
-          gradle-version: '8.10.2'
 
-      - name: Build Debug APK
+      - name: Make Gradle Wrapper Executable
+        run: chmod +x android/gradlew
+
+      - name: Build Debug APK with Gradle
         working-directory: android
         run: |
-          if [ ! -f ./gradlew ]; then
-            echo "Generating Gradle wrapper..."
-            gradle wrapper
-          fi
-          chmod +x ./gradlew
-          ./gradlew assembleDebug --no-daemon --stacktrace --info
-          echo "Build finished. Generated APKs:"
+          ./gradlew assembleDebug --no-daemon --stacktrace
+
+      - name: Verify Generated APK
+        working-directory: android
+        run: |
+          echo "Listing generated APK files:"
           find app/build/outputs -type f -name "*.apk" -print
 
-      - name: Upload APK
-        if: success()
+      - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
           name: AL-HINDWAN-Umrah-APK

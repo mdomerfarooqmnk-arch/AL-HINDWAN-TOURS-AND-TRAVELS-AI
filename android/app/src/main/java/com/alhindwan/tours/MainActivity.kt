@@ -6,9 +6,9 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material.icons.filled.Place
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -21,7 +21,6 @@ import com.alhindwan.tours.theme.AlHindwanTheme
 import com.alhindwan.tours.theme.DeepGreen
 import com.alhindwan.tours.theme.PremiumGold
 import com.alhindwan.tours.theme.PrimaryGreen
-
 import com.alhindwan.tours.ui.screens.*
 
 class MainActivity : ComponentActivity() {
@@ -39,17 +38,12 @@ sealed class Screen(val route: String, val title: String) {
     object Splash : Screen("splash", "Splash")
     object Home : Screen("home", "Home")
     object Packages : Screen("packages", "Umrah Packages")
-    object Search : Screen("search", "Search Packages")
     object PackageDetails : Screen("package_details/{packageId}", "Package Details")
     object BookingForm : Screen("booking_form/{packageId}", "Booking Form")
-    object PassengerDetails : Screen("passenger_details", "Passenger Details")
-    object Payment : Screen("payment", "Payment")
     object VisaDocs : Screen("visa_docs", "Visa & Documents")
     object Hotels : Screen("hotels", "Hotel Details")
     object Ziyarat : Screen("ziyarat", "Ziyarat Places")
     object Contact : Screen("contact", "Contact Us")
-    object MyBookings : Screen("my_bookings", "My Bookings")
-    object Profile : Screen("profile", "Profile")
 }
 
 @Composable
@@ -77,7 +71,14 @@ fun AlHindwanApp() {
                         icon = { Icon(Icons.Default.Home, contentDescription = "Home") },
                         label = { Text("Home") },
                         selected = currentRoute == Screen.Home.route,
-                        onClick = { navController.navigate(Screen.Home.route) },
+                        onClick = {
+                            if (currentRoute != Screen.Home.route) {
+                                navController.navigate(Screen.Home.route) {
+                                    popUpTo(Screen.Home.route) { inclusive = true }
+                                    launchSingleTop = true
+                                }
+                            }
+                        },
                         colors = NavigationBarItemDefaults.colors(
                             selectedIconColor = PremiumGold,
                             selectedTextColor = PremiumGold,
@@ -88,7 +89,13 @@ fun AlHindwanApp() {
                         icon = { Icon(Icons.Default.Place, contentDescription = "Packages") },
                         label = { Text("Packages") },
                         selected = currentRoute == Screen.Packages.route,
-                        onClick = { navController.navigate(Screen.Packages.route) },
+                        onClick = {
+                            if (currentRoute != Screen.Packages.route) {
+                                navController.navigate(Screen.Packages.route) {
+                                    launchSingleTop = true
+                                }
+                            }
+                        },
                         colors = NavigationBarItemDefaults.colors(
                             selectedIconColor = PremiumGold,
                             selectedTextColor = PremiumGold,
@@ -99,7 +106,13 @@ fun AlHindwanApp() {
                         icon = { Icon(Icons.Default.LocationOn, contentDescription = "Ziyarat") },
                         label = { Text("Ziyarat") },
                         selected = currentRoute == Screen.Ziyarat.route,
-                        onClick = { navController.navigate(Screen.Ziyarat.route) },
+                        onClick = {
+                            if (currentRoute != Screen.Ziyarat.route) {
+                                navController.navigate(Screen.Ziyarat.route) {
+                                    launchSingleTop = true
+                                }
+                            }
+                        },
                         colors = NavigationBarItemDefaults.colors(
                             selectedIconColor = PremiumGold,
                             selectedTextColor = PremiumGold,
@@ -110,7 +123,13 @@ fun AlHindwanApp() {
                         icon = { Icon(Icons.Default.Phone, contentDescription = "Contact") },
                         label = { Text("Contact") },
                         selected = currentRoute == Screen.Contact.route,
-                        onClick = { navController.navigate(Screen.Contact.route) },
+                        onClick = {
+                            if (currentRoute != Screen.Contact.route) {
+                                navController.navigate(Screen.Contact.route) {
+                                    launchSingleTop = true
+                                }
+                            }
+                        },
                         colors = NavigationBarItemDefaults.colors(
                             selectedIconColor = PremiumGold,
                             selectedTextColor = PremiumGold,
@@ -133,31 +152,32 @@ fun AlHindwanApp() {
                     onNavigateToHome = {
                         navController.navigate(Screen.Home.route) {
                             popUpTo(Screen.Splash.route) { inclusive = true }
+                            launchSingleTop = true
                         }
                     }
                 )
             }
             composable(Screen.Home.route) {
                 HomeScreen(
-                    onNavigateToPackages = { navController.navigate(Screen.Packages.route) },
-                    onNavigateToHotels = { navController.navigate(Screen.Hotels.route) },
-                    onNavigateToVisa = { navController.navigate(Screen.Hotels.route) },
-                    onNavigateToZiyarat = { navController.navigate(Screen.Ziyarat.route) },
-                    onNavigateToBooking = { pkgId -> navController.navigate("booking_form/$pkgId") },
-                    onNavigateToContact = { navController.navigate(Screen.Contact.route) },
-                    onNavigateToDetails = { pkgId -> navController.navigate("package_details/$pkgId") }
+                    onNavigateToPackages = { navController.navigate(Screen.Packages.route) { launchSingleTop = true } },
+                    onNavigateToHotels = { navController.navigate(Screen.Hotels.route) { launchSingleTop = true } },
+                    onNavigateToVisa = { navController.navigate(Screen.VisaDocs.route) { launchSingleTop = true } },
+                    onNavigateToZiyarat = { navController.navigate(Screen.Ziyarat.route) { launchSingleTop = true } },
+                    onNavigateToBooking = { pkgId -> navController.navigate("booking_form/$pkgId") { launchSingleTop = true } },
+                    onNavigateToContact = { navController.navigate(Screen.Contact.route) { launchSingleTop = true } },
+                    onNavigateToDetails = { pkgId -> navController.navigate("package_details/$pkgId") { launchSingleTop = true } }
                 )
             }
             composable(Screen.Packages.route) {
                 PackagesScreen(
-                    onSelectPackage = { pkgId -> navController.navigate("package_details/$pkgId") }
+                    onSelectPackage = { pkgId -> navController.navigate("package_details/$pkgId") { launchSingleTop = true } }
                 )
             }
             composable(Screen.PackageDetails.route) { backStackEntry ->
                 val packageId = backStackEntry.arguments?.getString("packageId")
                 PackageDetailsScreen(
                     packageId = packageId,
-                    onBookNow = { pkgId -> navController.navigate("booking_form/$pkgId") }
+                    onBookNow = { pkgId -> navController.navigate("booking_form/$pkgId") { launchSingleTop = true } }
                 )
             }
             composable(Screen.BookingForm.route) { backStackEntry ->
@@ -167,8 +187,15 @@ fun AlHindwanApp() {
                     onConfirm = {
                         navController.navigate(Screen.Home.route) {
                             popUpTo(Screen.Home.route) { inclusive = true }
+                            launchSingleTop = true
                         }
                     }
+                )
+            }
+            composable(Screen.VisaDocs.route) {
+                VisaDocsScreen(
+                    onBack = { navController.popBackStack() },
+                    onContact = { navController.navigate(Screen.Contact.route) { launchSingleTop = true } }
                 )
             }
             composable(Screen.Hotels.route) {

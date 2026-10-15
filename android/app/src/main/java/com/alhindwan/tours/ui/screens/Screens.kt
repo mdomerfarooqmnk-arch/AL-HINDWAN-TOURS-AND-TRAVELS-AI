@@ -41,10 +41,10 @@ fun SplashScreen(onNavigateToHome: () -> Unit) {
 
     LaunchedEffect(Unit) {
         while (progress < 1f) {
-            delay(120)
-            progress += 0.12f
+            delay(80)
+            progress += 0.15f
         }
-        delay(300)
+        delay(150)
         onNavigateToHome()
     }
 
@@ -117,7 +117,7 @@ fun SplashScreen(onNavigateToHome: () -> Unit) {
             Spacer(modifier = Modifier.height(36.dp))
 
             LinearProgressIndicator(
-                progress = { progress },
+                progress = { progress.coerceIn(0f, 1f) },
                 modifier = Modifier
                     .fillMaxWidth(0.6f)
                     .height(4.dp)
@@ -205,7 +205,7 @@ fun HomeScreen(
                 shape = RoundedCornerShape(18.dp),
                 colors = CardDefaults.cardColors(containerColor = DeepGreen)
             ) {
-                Box(modifier = Modifier.height(180.dp)) {
+                Box(modifier = Modifier.height(180.dp).background(DeepGreen)) {
                     AsyncImage(
                         model = featured.thumbnail,
                         contentDescription = "Kaaba Banner",
@@ -303,7 +303,7 @@ fun HomeScreen(
                         context.startActivity(Intent(Intent.ACTION_VIEW, uri))
                     }
                 )
-                ShortcutItem(title = "Profile", icon = Icons.Default.Person, onClick = onNavigateToContact)
+                ShortcutItem(title = "Office", icon = Icons.Default.Person, onClick = onNavigateToContact)
             }
         }
 
@@ -339,14 +339,19 @@ fun HomeScreen(
                 border = androidx.compose.foundation.BorderStroke(1.dp, PremiumGold.copy(alpha = 0.4f))
             ) {
                 Row(modifier = Modifier.padding(12.dp)) {
-                    AsyncImage(
-                        model = pkg.thumbnail,
-                        contentDescription = pkg.title,
+                    Box(
                         modifier = Modifier
                             .size(72.dp)
-                            .clip(RoundedCornerShape(10.dp)),
-                        contentScale = ContentScale.Crop
-                    )
+                            .clip(RoundedCornerShape(10.dp))
+                            .background(DeepGreen)
+                    ) {
+                        AsyncImage(
+                            model = pkg.thumbnail,
+                            contentDescription = pkg.title,
+                            modifier = Modifier.fillMaxSize(),
+                            contentScale = ContentScale.Crop
+                        )
+                    }
                     Spacer(modifier = Modifier.width(12.dp))
                     Column(modifier = Modifier.weight(1f)) {
                         Text(
@@ -484,7 +489,12 @@ fun PackagesScreen(onSelectPackage: (String) -> Unit) {
                     border = androidx.compose.foundation.BorderStroke(1.dp, PremiumGold.copy(alpha = 0.5f))
                 ) {
                     Column {
-                        Box(modifier = Modifier.fillMaxWidth().height(140.dp)) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(140.dp)
+                                .background(DeepGreen)
+                        ) {
                             AsyncImage(
                                 model = pkg.thumbnail,
                                 contentDescription = pkg.title,
@@ -553,7 +563,12 @@ fun PackageDetailsScreen(packageId: String?, onBookNow: (String) -> Unit) {
             .background(CreamBackground)
     ) {
         item {
-            Box(modifier = Modifier.fillMaxWidth().height(200.dp)) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(200.dp)
+                    .background(DeepGreen)
+            ) {
                 AsyncImage(
                     model = pkg.thumbnail,
                     contentDescription = pkg.title,
@@ -701,6 +716,85 @@ fun BookingFormScreen(packageId: String?, onConfirm: () -> Unit) {
 }
 
 @Composable
+fun VisaDocsScreen(onBack: () -> Unit, onContact: () -> Unit) {
+    val context = LocalContext.current
+
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(CreamBackground)
+            .padding(16.dp)
+    ) {
+        item {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth().padding(bottom = 12.dp)
+            ) {
+                IconButton(onClick = onBack) {
+                    Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Back", tint = PrimaryGreen)
+                }
+                Text(
+                    text = "Umrah Visa & Documents",
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = PrimaryGreen
+                )
+            }
+        }
+
+        item {
+            Card(
+                modifier = Modifier.fillMaxWidth().padding(vertical = 6.dp),
+                colors = CardDefaults.cardColors(containerColor = Color.White),
+                shape = RoundedCornerShape(12.dp),
+                border = androidx.compose.foundation.BorderStroke(1.dp, PremiumGold.copy(alpha = 0.4f))
+            ) {
+                Column(modifier = Modifier.padding(16.dp)) {
+                    Text(text = "📋 Required Documents for Umrah", fontWeight = FontWeight.Bold, color = PrimaryGreen, fontSize = 14.sp)
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(text = "• Original Passport (Minimum 6 months validity from travel date)", fontSize = 12.sp, color = MainText)
+                    Text(text = "• 2 Recent Color Photos (35mm x 45mm, White Background, 80% face view)", fontSize = 12.sp, color = MainText)
+                    Text(text = "• Copy of Indian PAN Card (Mandatory for TCS/LRS compliance)", fontSize = 12.sp, color = MainText)
+                    Text(text = "• COVID-19 / Meningitis Vaccination Certificate", fontSize = 12.sp, color = MainText)
+                }
+            }
+        }
+
+        item {
+            Card(
+                modifier = Modifier.fillMaxWidth().padding(vertical = 6.dp),
+                colors = CardDefaults.cardColors(containerColor = Color.White),
+                shape = RoundedCornerShape(12.dp),
+                border = androidx.compose.foundation.BorderStroke(1.dp, PremiumGold.copy(alpha = 0.4f))
+            ) {
+                Column(modifier = Modifier.padding(16.dp)) {
+                    Text(text = "🕋 Ministry Guidelines & Mahram Rules", fontWeight = FontWeight.Bold, color = PrimaryGreen, fontSize = 14.sp)
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(text = "• Women of any age are now permitted to perform Umrah with an organized group (Mahram is no longer required as per Ministry of Hajj & Umrah)", fontSize = 12.sp, color = MainText)
+                    Text(text = "• Tourist e-Visa / Umrah Visa valid for 90 days stay inside the Kingdom", fontSize = 12.sp, color = MainText)
+                    Text(text = "• Biometric registration via Saudi Bio App is handled by our staff", fontSize = 12.sp, color = MainText)
+                }
+            }
+        }
+
+        item {
+            Spacer(modifier = Modifier.height(16.dp))
+            Button(
+                onClick = {
+                    val uri = Uri.parse("https://wa.me/919700762916?text=Assalamu%20Alaikum,%20I%20need%20assistance%20with%20my%20Umrah%20Visa%20documents.")
+                    context.startActivity(Intent(Intent.ACTION_VIEW, uri))
+                },
+                modifier = Modifier.fillMaxWidth().height(48.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF25D366)),
+                shape = RoundedCornerShape(10.dp)
+            ) {
+                Text("WhatsApp Visa Specialist", color = Color.White, fontWeight = FontWeight.Bold)
+            }
+        }
+    }
+}
+
+@Composable
 fun HotelsScreen() {
     val hotels = remember { MockDataProvider.hotels }
 
@@ -720,12 +814,19 @@ fun HotelsScreen() {
                 border = androidx.compose.foundation.BorderStroke(1.dp, PremiumGold.copy(alpha = 0.4f))
             ) {
                 Column {
-                    AsyncImage(
-                        model = hotel.image,
-                        contentDescription = hotel.name,
-                        modifier = Modifier.fillMaxWidth().height(130.dp),
-                        contentScale = ContentScale.Crop
-                    )
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(130.dp)
+                            .background(DeepGreen)
+                    ) {
+                        AsyncImage(
+                            model = hotel.image,
+                            contentDescription = hotel.name,
+                            modifier = Modifier.fillMaxSize(),
+                            contentScale = ContentScale.Crop
+                        )
+                    }
                     Column(modifier = Modifier.padding(12.dp)) {
                         Row(
                             modifier = Modifier.fillMaxWidth(),
@@ -764,12 +865,19 @@ fun ZiyaratScreen() {
                 border = androidx.compose.foundation.BorderStroke(1.dp, PremiumGold.copy(alpha = 0.3f))
             ) {
                 Column {
-                    AsyncImage(
-                        model = place.image,
-                        contentDescription = place.name,
-                        modifier = Modifier.fillMaxWidth().height(90.dp),
-                        contentScale = ContentScale.Crop
-                    )
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(90.dp)
+                            .background(DeepGreen)
+                    ) {
+                        AsyncImage(
+                            model = place.image,
+                            contentDescription = place.name,
+                            modifier = Modifier.fillMaxSize(),
+                            contentScale = ContentScale.Crop
+                        )
+                    }
                     Column(modifier = Modifier.padding(8.dp)) {
                         Text(text = place.name, fontWeight = FontWeight.Bold, fontSize = 12.sp, color = PrimaryGreen)
                         Text(text = place.city, fontSize = 10.sp, color = Color.Gray)
@@ -786,70 +894,77 @@ fun ZiyaratScreen() {
 fun ContactScreen() {
     val context = LocalContext.current
 
-    Column(
+    LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .background(CreamBackground)
             .padding(16.dp)
     ) {
-        Text(text = "Contact Al Hindwan Tours", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = PrimaryGreen)
-        Spacer(modifier = Modifier.height(14.dp))
+        item {
+            Text(text = "Contact Al Hindwan Tours", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = PrimaryGreen)
+            Spacer(modifier = Modifier.height(14.dp))
+        }
 
-        Card(
-            modifier = Modifier.fillMaxWidth(),
-            colors = CardDefaults.cardColors(containerColor = Color.White),
-            shape = RoundedCornerShape(12.dp)
-        ) {
-            Column(modifier = Modifier.padding(14.dp)) {
-                Text(text = "Head Office — Hyderabad", fontWeight = FontWeight.Bold, color = PrimaryGreen, fontSize = 14.sp)
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(text = "📞 +91 9700762916", fontSize = 12.sp)
-                Text(text = "📞 +91 8555943416", fontSize = 12.sp)
-                Text(text = "📍 #18-13-6/74/3 to 8, Hashamabad, Chandrayangutta, Hyderabad, Telangana – 500053", fontSize = 11.sp, color = Color.DarkGray)
+        item {
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                colors = CardDefaults.cardColors(containerColor = Color.White),
+                shape = RoundedCornerShape(12.dp)
+            ) {
+                Column(modifier = Modifier.padding(14.dp)) {
+                    Text(text = "Head Office — Hyderabad", fontWeight = FontWeight.Bold, color = PrimaryGreen, fontSize = 14.sp)
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(text = "📞 +91 9700762916", fontSize = 12.sp)
+                    Text(text = "📞 +91 8555943416", fontSize = 12.sp)
+                    Text(text = "📍 #18-13-6/74/3 to 8, Hashamabad, Chandrayangutta, Hyderabad, Telangana – 500053", fontSize = 11.sp, color = Color.DarkGray)
+                }
             }
+            Spacer(modifier = Modifier.height(12.dp))
         }
 
-        Spacer(modifier = Modifier.height(12.dp))
-
-        Card(
-            modifier = Modifier.fillMaxWidth(),
-            colors = CardDefaults.cardColors(containerColor = Color.White),
-            shape = RoundedCornerShape(12.dp)
-        ) {
-            Column(modifier = Modifier.padding(14.dp)) {
-                Text(text = "Branch Office — Manna Ekhelli", fontWeight = FontWeight.Bold, color = PrimaryGreen, fontSize = 14.sp)
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(text = "📞 +91 9743481876", fontSize = 12.sp)
-                Text(text = "📍 1st Floor, Gram Panchayat Building, Manna Ekhelli, Bidar District, Karnataka", fontSize = 11.sp, color = Color.DarkGray)
+        item {
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                colors = CardDefaults.cardColors(containerColor = Color.White),
+                shape = RoundedCornerShape(12.dp)
+            ) {
+                Column(modifier = Modifier.padding(14.dp)) {
+                    Text(text = "Branch Office — Manna Ekhelli", fontWeight = FontWeight.Bold, color = PrimaryGreen, fontSize = 14.sp)
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(text = "📞 +91 9743481876", fontSize = 12.sp)
+                    Text(text = "📍 1st Floor, Gram Panchayat Building, Manna Ekhelli, Bidar District, Karnataka", fontSize = 11.sp, color = Color.DarkGray)
+                }
             }
+            Spacer(modifier = Modifier.height(20.dp))
         }
 
-        Spacer(modifier = Modifier.height(20.dp))
-
-        Button(
-            onClick = {
-                val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:+919700762916"))
-                context.startActivity(intent)
-            },
-            modifier = Modifier.fillMaxWidth().height(48.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = PrimaryGreen),
-            shape = RoundedCornerShape(10.dp)
-        ) {
-            Text("Call Office (+91 9700762916)", color = Color.White, fontWeight = FontWeight.Bold)
+        item {
+            Button(
+                onClick = {
+                    val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:+919700762916"))
+                    context.startActivity(intent)
+                },
+                modifier = Modifier.fillMaxWidth().height(48.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = PrimaryGreen),
+                shape = RoundedCornerShape(10.dp)
+            ) {
+                Text("Call Office (+91 9700762916)", color = Color.White, fontWeight = FontWeight.Bold)
+            }
+            Spacer(modifier = Modifier.height(10.dp))
         }
 
-        Spacer(modifier = Modifier.height(10.dp))
-
-        Button(
-            onClick = {
-                val uri = Uri.parse("https://wa.me/919700762916?text=Assalamu%20Alaikum,%20I%20want%20to%20enquire%20about%20Umrah%20packages.")
-                context.startActivity(Intent(Intent.ACTION_VIEW, uri))
-            },
-            modifier = Modifier.fillMaxWidth().height(48.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF25D366)),
-            shape = RoundedCornerShape(10.dp)
-        ) {
-            Text("Open WhatsApp Booking", color = Color.White, fontWeight = FontWeight.Bold)
+        item {
+            Button(
+                onClick = {
+                    val uri = Uri.parse("https://wa.me/919700762916?text=Assalamu%20Alaikum,%20I%20want%20to%20enquire%20about%20Umrah%20packages.")
+                    context.startActivity(Intent(Intent.ACTION_VIEW, uri))
+                },
+                modifier = Modifier.fillMaxWidth().height(48.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF25D366)),
+                shape = RoundedCornerShape(10.dp)
+            ) {
+                Text("Open WhatsApp Booking", color = Color.White, fontWeight = FontWeight.Bold)
+            }
         }
     }
 }
