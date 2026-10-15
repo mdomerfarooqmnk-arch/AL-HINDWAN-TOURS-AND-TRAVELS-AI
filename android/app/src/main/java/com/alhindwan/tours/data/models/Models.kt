@@ -25,7 +25,7 @@ data class UmrahPackage(
 
 data class Passenger(
     val fullName: String = "",
-    val dob: String = "",
+    val age: String = "",
     val passportNumber: String = "",
     val passportExpiry: String = "",
     val nationality: String = "Indian",
@@ -37,17 +37,42 @@ data class Booking(
     val packageId: String = "",
     val packageTitle: String = "",
     val departureDate: String = "",
+    val returnDate: String = "",
+    val airline: String = "IndiGo (Direct)",
     val passengerCount: Int = 1,
     val pricePerPerson: Long = 93000L,
     val totalAmount: Long = 93000L,
-    val paymentMethod: String = "UPI",
-    val paymentStatus: String = "Successful",
-    val bookingStatus: String = "Confirmed",
-    val passengers: List<Passenger> = emptyList(),
-    val createdAt: String = "",
+    val primaryPassengerName: String = "",
     val contactPhone: String = "",
     val contactEmail: String = "",
+    val specialRequests: String = "",
+    val paymentMethod: String = "UPI / Cash on Verification",
+    val paymentStatus: String = "Pending", // Pending, Partially Paid, Confirmed
+    val bookingStatus: String = "Confirmed", // Pending, Confirmed, Cancelled
+    val passengers: List<Passenger> = emptyList(),
+    val createdAt: String = "",
     val transactionRef: String = ""
+)
+
+data class UserProfile(
+    val fullName: String = "Mohammed Omer Farooq",
+    val email: String = "mdomerfarooqmnk@gmail.com",
+    val phone: String = "+91 9700762916",
+    val emergencyPhone: String = "+91 8555943416",
+    val city: String = "Hyderabad / Bidar",
+    val passportNumber: String = "Z5849301",
+    val passportExpiry: String = "15/08/2032",
+    val nationality: String = "Indian"
+)
+
+data class SavedPilgrim(
+    val id: String = "",
+    val fullName: String = "",
+    val relation: String = "Self", // Self, Spouse, Parent, Child, Other
+    val gender: String = "Male",
+    val passportNumber: String = "",
+    val passportExpiry: String = "",
+    val age: String = ""
 )
 
 data class Hotel(

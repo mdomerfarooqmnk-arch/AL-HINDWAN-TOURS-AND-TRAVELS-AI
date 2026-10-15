@@ -9,6 +9,7 @@
     <queries>
         <!-- Package queries for WhatsApp and Telephone dialing -->
         <package android:name="com.whatsapp" />
+        <package android:name="com.whatsapp.w4b" />
         <intent>
             <action android:name="android.intent.action.VIEW" />
             <data android:scheme="https" />
