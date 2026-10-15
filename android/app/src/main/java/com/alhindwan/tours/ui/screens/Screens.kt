@@ -20,6 +20,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.*
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -342,7 +343,7 @@ fun HomeScreen(
                 ShortcutItem(title = "Profile", icon = Icons.Default.Person, onClick = onNavigateToProfile)
                 ShortcutItem(
                     title = "WhatsApp",
-                    icon = Icons.Default.Send,
+                    icon = Icons.AutoMirrored.Filled.Send,
                     isAccent = true,
                     onClick = {
                         AppConfig.openWhatsApp(context, "Assalamu Alaikum! I would like to inquire about Umrah packages from Hyderabad.")
@@ -683,7 +684,7 @@ fun PackageDetailsScreen(
                         .background(DeepGreen.copy(alpha = 0.7f), CircleShape)
                         .align(Alignment.TopStart)
                 ) {
-                    Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Back", tint = Color.White)
+                    Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back", tint = Color.White)
                 }
             }
         }
@@ -833,7 +834,7 @@ fun BookingFormScreen(
                     .padding(bottom = 12.dp)
             ) {
                 IconButton(onClick = onBack) {
-                    Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Back", tint = PrimaryGreen)
+                    Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back", tint = PrimaryGreen)
                 }
                 Column {
                     Text(
@@ -1403,7 +1404,7 @@ fun BookingConfirmationScreen(
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF25D366)),
                 shape = RoundedCornerShape(12.dp)
             ) {
-                Icon(imageVector = Icons.Default.Send, contentDescription = "WhatsApp", tint = Color.White)
+                Icon(imageVector = Icons.AutoMirrored.Filled.Send, contentDescription = "WhatsApp", tint = Color.White)
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
                     text = "Send Booking Details on WhatsApp",
@@ -1677,7 +1678,7 @@ fun MyBookingsScreen(
                             }
 
                             Spacer(modifier = Modifier.height(8.dp))
-                            Divider(color = CreamBackground, thickness = 1.dp)
+                            HorizontalDivider(color = CreamBackground, thickness = 1.dp)
                             Spacer(modifier = Modifier.height(8.dp))
 
                             Row(
@@ -1734,7 +1735,7 @@ fun MyBookingsScreen(
                                     shape = RoundedCornerShape(8.dp),
                                     contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp)
                                 ) {
-                                    Icon(imageVector = Icons.Default.Send, contentDescription = "WhatsApp", tint = Color.White, modifier = Modifier.size(14.dp))
+                                    Icon(imageVector = Icons.AutoMirrored.Filled.Send, contentDescription = "WhatsApp", tint = Color.White, modifier = Modifier.size(14.dp))
                                     Spacer(modifier = Modifier.width(4.dp))
                                     Text("WhatsApp Manager", color = Color.White, fontSize = 10.sp, fontWeight = FontWeight.Bold)
                                 }
@@ -2146,23 +2147,23 @@ fun ProfileScreen(
                             subtitle = "View active and past bookings",
                             onClick = onNavigateToMyBookings
                         )
-                        Divider(color = CreamBackground, thickness = 1.dp)
+                        HorizontalDivider(color = CreamBackground, thickness = 1.dp)
                         ProfileMenuItem(
                             title = "Visa Documents & Rules",
                             icon = Icons.Default.Info,
                             subtitle = "Required photo specifications & validities",
                             onClick = onNavigateToVisaDocs
                         )
-                        Divider(color = CreamBackground, thickness = 1.dp)
+                        HorizontalDivider(color = CreamBackground, thickness = 1.dp)
                         ProfileMenuItem(
                             title = "WhatsApp Support Desk",
-                            icon = Icons.Default.Send,
+                            icon = Icons.AutoMirrored.Filled.Send,
                             subtitle = "Chat directly with agency tour manager",
                             onClick = {
                                 AppConfig.openWhatsApp(context, "Assalamu Alaikum! I need customer support regarding Al Hindwan Umrah services.")
                             }
                         )
-                        Divider(color = CreamBackground, thickness = 1.dp)
+                        HorizontalDivider(color = CreamBackground, thickness = 1.dp)
                         ProfileMenuItem(
                             title = "Agency Offices & Phone Numbers",
                             icon = Icons.Default.Phone,
@@ -2237,7 +2238,7 @@ fun ProfileMenuItem(
             Text(text = title, fontSize = 12.sp, fontWeight = FontWeight.Bold, color = MainText)
             Text(text = subtitle, fontSize = 10.sp, color = Color.Gray)
         }
-        Icon(imageVector = Icons.Default.KeyboardArrowRight, contentDescription = "Go", tint = Color.Gray, modifier = Modifier.size(20.dp))
+        Icon(imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight, contentDescription = "Go", tint = Color.Gray, modifier = Modifier.size(20.dp))
     }
 }
 
@@ -2262,7 +2263,7 @@ fun VisaDocsScreen(onBack: () -> Unit, onContact: () -> Unit) {
                     .padding(bottom = 12.dp)
             ) {
                 IconButton(onClick = onBack) {
-                    Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Back", tint = PrimaryGreen)
+                    Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back", tint = PrimaryGreen)
                 }
                 Text(
                     text = "Umrah Visa & Documents",
@@ -2324,7 +2325,7 @@ fun VisaDocsScreen(onBack: () -> Unit, onContact: () -> Unit) {
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF25D366)),
                 shape = RoundedCornerShape(10.dp)
             ) {
-                Icon(imageVector = Icons.Default.Send, contentDescription = "WhatsApp", tint = Color.White)
+                Icon(imageVector = Icons.AutoMirrored.Filled.Send, contentDescription = "WhatsApp", tint = Color.White)
                 Spacer(modifier = Modifier.width(6.dp))
                 Text("WhatsApp Visa Specialist", color = Color.White, fontWeight = FontWeight.Bold)
             }
@@ -2515,7 +2516,7 @@ fun ContactScreen() {
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF25D366)),
                 shape = RoundedCornerShape(10.dp)
             ) {
-                Icon(imageVector = Icons.Default.Send, contentDescription = "WhatsApp", tint = Color.White)
+                Icon(imageVector = Icons.AutoMirrored.Filled.Send, contentDescription = "WhatsApp", tint = Color.White)
                 Spacer(modifier = Modifier.width(6.dp))
                 Text("Open WhatsApp Booking Chat", color = Color.White, fontWeight = FontWeight.Bold)
             }

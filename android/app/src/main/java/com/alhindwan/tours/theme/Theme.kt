@@ -38,6 +38,7 @@ fun AlHindwanTheme(
             }
             if (ctx is Activity) {
                 val window = ctx.window
+                @Suppress("DEPRECATION")
                 window.statusBarColor = DeepGreen.toArgb()
                 WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = false
             }
