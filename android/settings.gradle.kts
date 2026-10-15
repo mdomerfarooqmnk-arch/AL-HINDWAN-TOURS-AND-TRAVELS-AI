@@ -1,4 +1,3 @@
-```kotlin
 pluginManagement {
     repositories {
         google()
@@ -15,6 +14,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "AlHindwanUmrah"
+rootProject.name = "AlHindwanTours"
 include(":app")
-```
