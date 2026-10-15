@@ -6,10 +6,10 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CalendarToday
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Explore
+import androidx.compose.material.icons.filled.Place
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -82,7 +82,7 @@ fun AlHindwanApp() {
                         )
                     )
                     NavigationBarItem(
-                        icon = { Icon(Icons.Default.Explore, contentDescription = "Packages") },
+                        icon = { Icon(Icons.Default.Place, contentDescription = "Packages") },
                         label = { Text("Packages") },
                         selected = currentRoute == Screen.Packages.route,
                         onClick = { navController.navigate(Screen.Packages.route) },
@@ -93,7 +93,7 @@ fun AlHindwanApp() {
                         )
                     )
                     NavigationBarItem(
-                        icon = { Icon(Icons.Default.CalendarToday, contentDescription = "Booking") },
+                        icon = { Icon(Icons.Default.DateRange, contentDescription = "Booking") },
                         label = { Text("Booking") },
                         selected = currentRoute == Screen.MyBookings.route,
                         onClick = { navController.navigate(Screen.MyBookings.route) },
