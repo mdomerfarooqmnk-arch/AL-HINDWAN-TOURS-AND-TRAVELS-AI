@@ -9,7 +9,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CalendarToday
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Tour
+import androidx.compose.material.icons.filled.Explore
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -82,7 +82,7 @@ fun AlHindwanApp() {
                         )
                     )
                     NavigationBarItem(
-                        icon = { Icon(Icons.Default.Tour, contentDescription = "Packages") },
+                        icon = { Icon(Icons.Default.Explore, contentDescription = "Packages") },
                         label = { Text("Packages") },
                         selected = currentRoute == Screen.Packages.route,
                         onClick = { navController.navigate(Screen.Packages.route) },
