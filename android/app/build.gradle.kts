@@ -32,7 +32,6 @@ android {
             )
         }
         debug {
-            applicationIdSuffix = ".debug"
             isDebuggable = true
         }
     }
@@ -60,7 +59,7 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
 
     // Icons Extended
-    implementation("androidx.compose.material:material-icons-extended:1.7.5")
+    implementation("androidx.compose.material:material-icons-extended")
 
     // Image loading with Coil
     implementation("io.coil-kt:coil-compose:2.7.0")

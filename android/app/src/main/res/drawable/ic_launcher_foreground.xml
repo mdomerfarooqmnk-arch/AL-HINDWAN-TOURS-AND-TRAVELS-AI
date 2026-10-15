@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Golden Crescent and Minaret Motif -->
+    <path
+        android:fillColor="#D8B45A"
+        android:pathData="M54,28c-14.36,0 -26,11.64 -26,26s11.64,26 26,26c4.68,0 9.07,-1.24 12.87,-3.41 -9.51,-1.82 -16.67,-10.15 -16.67,-20.19 0,-10.04 7.16,-18.37 16.67,-20.19C63.07,29.24 58.68,28 54,28z" />
+    <path
+        android:fillColor="#D8B45A"
+        android:pathData="M65,45l3,6h6l-5,4 2,6 -6,-4 -6,4 2,-6 -5,-4h6z" />
+</vector>

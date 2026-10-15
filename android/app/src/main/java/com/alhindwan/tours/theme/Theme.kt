@@ -31,9 +31,12 @@ fun AlHindwanTheme(
     val view = LocalView.current
     if (!view.isInEditMode) {
         SideEffect {
-            val window = (view.context as Activity).window
-            window.statusBarColor = DeepGreen.toArgb()
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = false
+            val context = view.context
+            if (context is Activity) {
+                val window = context.window
+                window.statusBarColor = DeepGreen.toArgb()
+                WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = false
+            }
         }
     }
 
