@@ -22,6 +22,8 @@ import com.alhindwan.tours.theme.DeepGreen
 import com.alhindwan.tours.theme.PremiumGold
 import com.alhindwan.tours.theme.PrimaryGreen
 
+import com.alhindwan.tours.ui.screens.*
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,8 +61,9 @@ fun AlHindwanApp() {
     val showBottomBar = currentRoute in listOf(
         Screen.Home.route,
         Screen.Packages.route,
-        Screen.MyBookings.route,
-        Screen.Profile.route
+        Screen.Hotels.route,
+        Screen.Ziyarat.route,
+        Screen.Contact.route
     )
 
     Scaffold(
@@ -93,10 +96,10 @@ fun AlHindwanApp() {
                         )
                     )
                     NavigationBarItem(
-                        icon = { Icon(Icons.Default.DateRange, contentDescription = "Booking") },
-                        label = { Text("Booking") },
-                        selected = currentRoute == Screen.MyBookings.route,
-                        onClick = { navController.navigate(Screen.MyBookings.route) },
+                        icon = { Icon(Icons.Default.LocationOn, contentDescription = "Ziyarat") },
+                        label = { Text("Ziyarat") },
+                        selected = currentRoute == Screen.Ziyarat.route,
+                        onClick = { navController.navigate(Screen.Ziyarat.route) },
                         colors = NavigationBarItemDefaults.colors(
                             selectedIconColor = PremiumGold,
                             selectedTextColor = PremiumGold,
@@ -104,10 +107,10 @@ fun AlHindwanApp() {
                         )
                     )
                     NavigationBarItem(
-                        icon = { Icon(Icons.Default.Person, contentDescription = "Profile") },
-                        label = { Text("Profile") },
-                        selected = currentRoute == Screen.Profile.route,
-                        onClick = { navController.navigate(Screen.Profile.route) },
+                        icon = { Icon(Icons.Default.Phone, contentDescription = "Contact") },
+                        label = { Text("Contact") },
+                        selected = currentRoute == Screen.Contact.route,
+                        onClick = { navController.navigate(Screen.Contact.route) },
                         colors = NavigationBarItemDefaults.colors(
                             selectedIconColor = PremiumGold,
                             selectedTextColor = PremiumGold,
@@ -126,47 +129,56 @@ fun AlHindwanApp() {
                 .padding(innerPadding)
         ) {
             composable(Screen.Splash.route) {
-                // Screen 1: Splash screen
+                SplashScreen(
+                    onNavigateToHome = {
+                        navController.navigate(Screen.Home.route) {
+                            popUpTo(Screen.Splash.route) { inclusive = true }
+                        }
+                    }
+                )
             }
             composable(Screen.Home.route) {
-                // Screen 2: Home screen with Kaaba banner & shortcuts
+                HomeScreen(
+                    onNavigateToPackages = { navController.navigate(Screen.Packages.route) },
+                    onNavigateToHotels = { navController.navigate(Screen.Hotels.route) },
+                    onNavigateToVisa = { navController.navigate(Screen.Hotels.route) },
+                    onNavigateToZiyarat = { navController.navigate(Screen.Ziyarat.route) },
+                    onNavigateToBooking = { pkgId -> navController.navigate("booking_form/$pkgId") },
+                    onNavigateToContact = { navController.navigate(Screen.Contact.route) },
+                    onNavigateToDetails = { pkgId -> navController.navigate("package_details/$pkgId") }
+                )
             }
             composable(Screen.Packages.route) {
-                // Screen 3: Umrah Packages
-            }
-            composable(Screen.Search.route) {
-                // Screen 4: Search & Filter
+                PackagesScreen(
+                    onSelectPackage = { pkgId -> navController.navigate("package_details/$pkgId") }
+                )
             }
             composable(Screen.PackageDetails.route) { backStackEntry ->
                 val packageId = backStackEntry.arguments?.getString("packageId")
-                // Screen 5: Package Details
+                PackageDetailsScreen(
+                    packageId = packageId,
+                    onBookNow = { pkgId -> navController.navigate("booking_form/$pkgId") }
+                )
             }
             composable(Screen.BookingForm.route) { backStackEntry ->
-                // Screen 6: Booking Form
-            }
-            composable(Screen.PassengerDetails.route) {
-                // Screen 7: Passenger Details
-            }
-            composable(Screen.Payment.route) {
-                // Screen 8: Payment Screen
-            }
-            composable(Screen.VisaDocs.route) {
-                // Screen 9: Visa & Documents
+                val packageId = backStackEntry.arguments?.getString("packageId")
+                BookingFormScreen(
+                    packageId = packageId,
+                    onConfirm = {
+                        navController.navigate(Screen.Home.route) {
+                            popUpTo(Screen.Home.route) { inclusive = true }
+                        }
+                    }
+                )
             }
             composable(Screen.Hotels.route) {
-                // Screen 10: Hotel Details
+                HotelsScreen()
             }
             composable(Screen.Ziyarat.route) {
-                // Screen 11: Ziyarat Places
+                ZiyaratScreen()
             }
             composable(Screen.Contact.route) {
-                // Screen 12: Contact & WhatsApp Booking
-            }
-            composable(Screen.MyBookings.route) {
-                // Customer Bookings
-            }
-            composable(Screen.Profile.route) {
-                // Pilgrim Profile
+                ContactScreen()
             }
         }
     }
