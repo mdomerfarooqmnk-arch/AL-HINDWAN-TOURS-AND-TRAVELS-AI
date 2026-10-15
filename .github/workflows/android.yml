@@ -32,8 +32,14 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Make Gradle Wrapper Executable
-        run: chmod +x android/gradlew
+      - name: Ensure Gradle Wrapper is Ready
+        working-directory: android
+        run: |
+          if [ ! -f "gradlew" ] || [ ! -f "gradle/wrapper/gradle-wrapper.jar" ]; then
+            echo "Gradle wrapper missing or incomplete, generating..."
+            gradle wrapper --gradle-version 8.10.2
+          fi
+          chmod +x gradlew
 
       - name: Build Debug APK with Gradle
         working-directory: android

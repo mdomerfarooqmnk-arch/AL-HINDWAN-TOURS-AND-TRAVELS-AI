@@ -174,14 +174,14 @@ fun HomeScreen(
             ) {
                 Column {
                     Text(
-                        text = "AL HINDWAN TOURS",
+                        text = "AL HINDWAN TOURS & TRAVELS",
                         color = PremiumGold,
                         fontSize = 15.sp,
                         fontWeight = FontWeight.Black
                     )
                     Text(
                         text = "Umrah Services · Hyderabad & Karnataka",
-                        color = Color.White.copy(alpha = 0.8f),
+                        color = Color.White.copy(alpha = 0.85f),
                         fontSize = 10.sp
                     )
                 }
@@ -231,7 +231,7 @@ fun HomeScreen(
                             shape = RoundedCornerShape(6.dp)
                         ) {
                             Text(
-                                text = "OFFICIAL UMRAH PACKAGE",
+                                text = "OFFICIAL UMRAH PACKAGES",
                                 color = DeepGreen,
                                 fontSize = 9.sp,
                                 fontWeight = FontWeight.Bold,
@@ -303,7 +303,7 @@ fun HomeScreen(
                         context.startActivity(Intent(Intent.ACTION_VIEW, uri))
                     }
                 )
-                ShortcutItem(title = "Office", icon = Icons.Default.Person, onClick = onNavigateToContact)
+                ShortcutItem(title = "Our Offices", icon = Icons.Default.LocationOn, onClick = onNavigateToContact)
             }
         }
 
@@ -901,7 +901,7 @@ fun ContactScreen() {
             .padding(16.dp)
     ) {
         item {
-            Text(text = "Contact Al Hindwan Tours", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = PrimaryGreen)
+            Text(text = "Contact Al Hindwan Tours & Travels", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = PrimaryGreen)
             Spacer(modifier = Modifier.height(14.dp))
         }
 

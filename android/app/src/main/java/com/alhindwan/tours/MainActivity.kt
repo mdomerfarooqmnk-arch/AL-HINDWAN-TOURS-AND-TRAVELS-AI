@@ -82,7 +82,9 @@ fun AlHindwanApp() {
                         colors = NavigationBarItemDefaults.colors(
                             selectedIconColor = PremiumGold,
                             selectedTextColor = PremiumGold,
-                            indicatorColor = DeepGreen
+                            indicatorColor = DeepGreen,
+                            unselectedIconColor = Color.White.copy(alpha = 0.85f),
+                            unselectedTextColor = Color.White.copy(alpha = 0.85f)
                         )
                     )
                     NavigationBarItem(
@@ -99,7 +101,9 @@ fun AlHindwanApp() {
                         colors = NavigationBarItemDefaults.colors(
                             selectedIconColor = PremiumGold,
                             selectedTextColor = PremiumGold,
-                            indicatorColor = DeepGreen
+                            indicatorColor = DeepGreen,
+                            unselectedIconColor = Color.White.copy(alpha = 0.85f),
+                            unselectedTextColor = Color.White.copy(alpha = 0.85f)
                         )
                     )
                     NavigationBarItem(
@@ -116,7 +120,9 @@ fun AlHindwanApp() {
                         colors = NavigationBarItemDefaults.colors(
                             selectedIconColor = PremiumGold,
                             selectedTextColor = PremiumGold,
-                            indicatorColor = DeepGreen
+                            indicatorColor = DeepGreen,
+                            unselectedIconColor = Color.White.copy(alpha = 0.85f),
+                            unselectedTextColor = Color.White.copy(alpha = 0.85f)
                         )
                     )
                     NavigationBarItem(
@@ -133,7 +139,9 @@ fun AlHindwanApp() {
                         colors = NavigationBarItemDefaults.colors(
                             selectedIconColor = PremiumGold,
                             selectedTextColor = PremiumGold,
-                            indicatorColor = DeepGreen
+                            indicatorColor = DeepGreen,
+                            unselectedIconColor = Color.White.copy(alpha = 0.85f),
+                            unselectedTextColor = Color.White.copy(alpha = 0.85f)
                         )
                     )
                 }
