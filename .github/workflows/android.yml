@@ -1,16 +1,15 @@
-      - name: Build APK
-        working-directory: android
-        run: |
-          chmod +x ./gradlew
-          ./gradlew assembleDebug --no-daemon --stacktrace
-          echo "APK files generated:"
-          find app/build/outputs -type f -name "*.apk" -print
 
-      - name: Upload APK
-        if: success()
-        uses: actions/upload-artifact@v4
-        with:
-          name: AL-HINDWAN-Umrah-APK
-          path: android/app/build/outputs/apk/**/*.apk
-          if-no-files-found: error
-          retention-days: 14
+name: Android Build
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
